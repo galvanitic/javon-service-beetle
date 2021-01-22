@@ -11,8 +11,8 @@
 # production
 /src/fb-cred.ts
 /src/rapi-cred.ts
-/dist/fb-cred.js
-/dist/rapi-cred.js
+/dist/galvanite
+/src/galvanite
 
 # misc
 .DS_Store

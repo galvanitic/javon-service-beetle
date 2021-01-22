@@ -2,8 +2,8 @@
 import firebase from 'firebase/app';
 import "firebase/database";
 import unirest from 'unirest';
-import fbCred from './fb-cred';
-import rapiCred from './rapi-cred';
+import fbCred from './galvanite/fb-cred';
+import rapiCred from './galvanite/rapi-cred';
 // TYPES 
 interface IInstagramNodeData {
   node:{
