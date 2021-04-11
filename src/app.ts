@@ -63,6 +63,8 @@ firebase.initializeApp(fbCred);
 let database = firebase.database();
 
 let usrID:string = '1419097858';
+// let usrID:string = '369469525';
+// let customHashtag:string = 'galvanite';
 let customHashtag:string = 'javondesigns';
 
 let updateData = (postsArr:Array<IPostNodeData>) => {
@@ -75,7 +77,7 @@ let updateData = (postsArr:Array<IPostNodeData>) => {
     }
   }
 
-  firebase.database().ref('users/' + '0').set(
+  firebase.database().ref('users/' + fbCred.fbKey).set(
     PostData, 
     function(error) {
     if (error) {
@@ -103,21 +105,23 @@ let fetchWritePosts = () =>{
   
           data = res.body;
           let jsonData:IInstagramData = JSON.parse(data);
-          console.log();
-          for(let i:number=0; i < Number(jsonData.data.hashtag.edge_hashtag_to_media.count); i++){
-            let postNodeData:IPostNodeData = {
-              post:{
-                owner: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.owner.id,
-                shortcode: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.shortcode,
-                display_url: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.shortcode,
-                thumbnail_src: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.thumbnail_src,
-                caption: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.edge_media_to_caption.edges[0].node.text
+          for(let i:number=0; i < Number(jsonData.data.hashtag.edge_hashtag_to_media.edges.length)-1; i++){
+            if (jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node !== undefined){
+              let postNodeData:IPostNodeData = {
+                post:{
+                  owner: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.owner.id,
+                  shortcode: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.shortcode,
+                  display_url: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.shortcode,
+                  thumbnail_src: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.thumbnail_src,
+                  caption: jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.edge_media_to_caption.edges[0].node.text
+                }
               }
-            }
-            if(jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.owner.id == usrID){
-              postsArr.push(postNodeData);
-            }else{
-              console.log(`Post #${i} does not belong to user.`);
+              if(jsonData.data.hashtag.edge_hashtag_to_media.edges[i].node.owner.id == usrID){
+                console.log(`Post #${i} was added.`);
+                postsArr.push(postNodeData);
+              }else{
+                console.log(`Post #${i} does not belong to user.`);
+              }
             }
           }
           updateData(postsArr);
@@ -130,3 +134,5 @@ let serviceBeetle = () => {
 }
 
 setInterval(serviceBeetle, (1000 * 60 * 60) * 5) // Repeat every 5 hrs
+
+// serviceBeetle();
