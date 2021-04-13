@@ -133,6 +133,5 @@ let serviceBeetle = () => {
   fetchWritePosts();
 }
 
+serviceBeetle();
 setInterval(serviceBeetle, (1000 * 60 * 60) * 5) // Repeat every 5 hrs
-
-// serviceBeetle();
