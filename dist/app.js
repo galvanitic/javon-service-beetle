@@ -11,10 +11,10 @@ const fb_cred_1 = __importDefault(require("./galvanite/fb-cred"));
 const rapi_cred_1 = __importDefault(require("./galvanite/rapi-cred"));
 app_1.default.initializeApp(fb_cred_1.default);
 let database = app_1.default.database();
-// let usrID:string = '1419097858';
-let usrID = '369469525';
-let customHashtag = 'galvanite';
-// let customHashtag:string = 'javondesigns';
+let usrID = '1419097858';
+// let usrID:string = '369469525';
+// let customHashtag:string = 'galvanite';
+let customHashtag = 'javondesigns';
 let updateData = (postsArr) => {
     let PostData = {
         fname: "Javon",
@@ -77,5 +77,5 @@ let serviceBeetle = () => {
     database.ref('users/').remove();
     fetchWritePosts();
 };
-// setInterval(serviceBeetle, (1000 * 60 * 60) * 5) // Repeat every 5 hrs
-serviceBeetle();
+setInterval(serviceBeetle, (1000 * 60 * 60) * 5); // Repeat every 5 hrs
+// serviceBeetle();
